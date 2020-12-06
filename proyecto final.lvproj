@@ -10,6 +10,15 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="abstract" Type="Folder">
+			<Item Name="Serial Device.lvclass" Type="LVClass" URL="../Serial Device.lvclass"/>
+		</Item>
+		<Item Name="implimentation" Type="Folder">
+			<Item Name="Arduino.lvclass" Type="LVClass" URL="../Arduino.lvclass"/>
+			<Item Name="NXP.lvclass" Type="LVClass" URL="../NXP.lvclass"/>
+			<Item Name="simulado.lvclass" Type="LVClass" URL="../simulado.lvclass"/>
+		</Item>
+		<Item Name="Control 13.ctl" Type="VI" URL="../Control 13.ctl"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>
