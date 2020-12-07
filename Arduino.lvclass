@@ -52,6 +52,15 @@
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
 		<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
 	</Item>
+	<Item Name="SETPINSTATUS.vi" Type="VI" URL="../arduino1/SETPINSTATUS.vi">
+		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">'1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!%`!!!!$!!G1(!!(A!!%1^"=G2V;7ZP,GRW9WRB=X-!#E&amp;S:(6J&lt;G]A;7Y!!!1!!!!G1(!!(A!!%1^"=G2V;7ZP,GRW9WRB=X-!#U&amp;S:(6J&lt;G]A&lt;X6U!!N!#A!%5%^36!!!#5!+!!.135Y!#E!B"8:B&lt;'^S!!R!)1:T&gt;'&amp;U&gt;8-!!!N!!Q!%9W^E:1!!%%!Q`````Q:T&lt;X6S9W5!!#"!5!!$!!9!"Q!)%W6S=G^S)'FO)#BO&lt;S"F=H*P=CE!&amp;E"1!!-!"A!(!!A*:8*S&lt;X)A&lt;X6U!'Q!]!!1!!!!!1!"!!%!!A!$!!%!"!!"!!5!!1!*!!%!!1!"!!I$!!%)!!#3!!!!!!!!!!!!!!!!!!!!D1!!!!A!!!!!!!!!#!!!!!!!!!!)!!!!!!!!!!I!!!!!!!!!!!!!!!!!!!!.#Q!!!!%!#Q!!!!!</Property>
+		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">false</Property>
+		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
+	</Item>
 	<Item Name="SETPORT.vi" Type="VI" URL="../arduino1/SETPORT.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">'1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!%C!!!!#Q!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!!!!%!!AFF=H*P=C"P&gt;81!"!!!!#:!=!!?!!!2$U&amp;S:(6J&lt;G]O&lt;(:D&lt;'&amp;T=Q!,18*E&gt;7FO&lt;S"P&gt;81!)%"1!!-!!!!"!!)4:8*S&lt;X)A;7YA+'ZP)'6S=G^S+1!/1$$`````"6:B&lt;'^S!!N!#A!%5'^S&gt;!!!*E"Q!"Y!!"%018*E&gt;7FO&lt;SZM&gt;G.M98.T!!J"=G2V;7ZP)'FO!!"5!0!!$!!$!!1!"!!&amp;!!1!"!!%!!1!"A!(!!A!#1-!!(A!!!U)!!!!!!!!!!!!!)U,!!!!!!!!!!!!!!!!!!!!!!!!#A!!!AA!!!!)!!!!EA!!!!!"!!I!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
