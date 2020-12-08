@@ -1,0 +1,1083 @@
+= Reporte Proyecto final
+José Nájera Alonso
+:doctype: book
+:toc: 
+:imagesdir: Images
+:sectnums: 
+:toclevels: 3
+:chapter-label: Section
+
+== Project description
+
+No description found (add content in project description)
+
+== Code component descriptions
+
+=== DQMH(R) modules
+
+This section describes DQMH(R) module responsibilities and relationships.
+
+==== Preamble
+
+A DQMH module is the main component of an architecture based on DQMH(R) framework. A DQMH module is used to implement a section of the application that has one responsibility.
+
+DQMH(R) framework defines two different type of DQMH module.  
+
+====
+*Singleton:*
+
+A Singleton DQMH module can have only one instance running at any given time.
+====
+
+====
+*Cloneable:*
+
+A Cloneable DQMH module can have one or multiple instances running in parallel.
+====
+
+DQMH(R) framework defines two different ways to carry data throughout the application and with both other DQMH modules and non-DQMH based code.
+
+====
+*Request events:*
+
+A request is a code that fires an event requesting the DQMH module to do something. Multiple locations in the code can send events to the DQMH module.
+
+Request events are many-to-one.
+
+Requests are usually named using imperative tense.
+====
+
+====
+*Broadcast events:*
+
+A broadcast is a code that fires an event broadcasting that the DQMH module did something. Multiple Event Structures can register to handle the Broadcast Events.
+
+Broadcast Events are one-to-many.
+
+Broadcasts are usually named using past tense or passive voice.
+====
+
+NOTE: Refer to the DQMH(R) framework official http://delacor.com/documentation/dqmh-html/[documentation] to find more details on how the framework works
+
+
+The following section gives you details on the project architecture relying on this framework.
+It gives you an overview of the modules' interaction and detailed information on each module.
+
+Graphs used in this section have the following legend:
+
+*Components:*
+
+
+[graphviz, format="png", align="center"]
+....
+digraph G164039 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"DQMH module / Lvlib"[color=black shape=component]
+"Vi"[color=skyblue shape=note]
+}
+....
+
+*Events:*
+
+[graphviz, format="png", align="center"]
+....
+digraph G995124 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+" "[color=white shape=box]
+"  "[color=white shape=box]
+"   "[color=white shape=box]
+"    "[color=white shape=box]
+" " -> "  " [label="Request to a DQMH module" dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"   " -> "    " [label="Broadcast from a DQMH module" dir=both color=goldenrod  arrowhead=normal arrowtail=none style=dashed penwidth=1];
+}
+....
+
+*Start and Stop module callers:*
+
+[graphviz, format="png", align="center"]
+....
+digraph G729956 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Start Module
+caller"[color=black shape=component]
+"Start Module"[color=yellowgreen shape=note]
+"Start Module" -> "Start Module
+caller" [label="Called by" dir=both color=yellowgreen  arrowhead=odot arrowtail=inv style=filled penwidth=1];
+}
+....
+
+[graphviz, format="png", align="center"]
+....
+digraph G109169 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Stop Module
+caller"[color=black shape=component]
+"Stop Module"[color=tomato shape=note]
+"Stop Module" -> "Stop Module
+caller" [label="Called by" dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+}
+....
+
+
+==== Modules overview
+
+This project contains the following modules.
+
+.Modules list
+|===
+|Singleton|Cloneable
+
+|
+|<<moduloDqmh.lvlib>>
+|===
+
+This graph represents the links between all DQMH modules.
+
+[graphviz, format="png", align="center"]
+....
+digraph G513011 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"moduloDqmh"[color=black shape=component]
+"moduloDqmh" -> "moduloDqmh" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+}
+....
+
+
+==== moduloDqmh.lvlib
+
+*Type:* Cloneable
+
+*Responsibility*: En esta libreria se encuntra todas las carpetas del DQMH, ademas del main o interfaz donde se realiza todas las ejeccuinoes o instrucciones de los microcontroladores. es el punete entre el ususario y el microcontrolador
+
+===== Module Start/Stop calls
+
+[graphviz, format="png", align="center"]
+....
+digraph G951312 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Start Module"[color=yellowgreen shape=note]
+"Test moduloDqmh API"[color=skyblue shape=note]
+"Stop Module"[color=tomato shape=note]
+"moduloDqmh"[color=black shape=component]
+"Start Module" -> "Test moduloDqmh API" [dir=both color=yellowgreen  arrowhead=odot arrowtail=inv style=filled penwidth=1];
+"Stop Module" -> "moduloDqmh" [dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+"Stop Module" -> "Test moduloDqmh API" [dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+}
+....
+
+.Start and Stop module callers
+|===
+|Function|Callers
+
+|<<moduloDqmh.lvlib:Start Module.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Stop Module.vi>>
+|moduloDqmh.lvlib:Handle Exit.vi +
+Test moduloDqmh API.vi
+|===
+
+===== Module relationship
+
+[graphviz, format="png", align="center"]
+....
+digraph G91080 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"moduloDqmh"[color=slateblue shape=component]
+"Test moduloDqmh API"[color=skyblue shape=note]
+"Test moduloDqmh API" -> "moduloDqmh" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"moduloDqmh" -> "moduloDqmh" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"moduloDqmh" -> "Test moduloDqmh API" [label=" " dir=both color=goldenrod  arrowhead=normal arrowtail=none style=dashed penwidth=1];
+}
+....
+
+.Requests callers
+|===
+|Request Name|Callers
+
+|<<moduloDqmh.lvlib:Show Panel.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Hide Panel.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Show Diagram.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:READ ADC.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Read Port.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Read Pin.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Write Port.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Write Pin.vi>>
+|Test moduloDqmh API.vi
+|===
+
+.Broadcasts Listeners
+|===
+|Broadcast Name|Listeners
+
+|<<moduloDqmh.lvlib:Module Did Init.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Status Updated.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Error Reported.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Module Did Stop.vi>>
+|Test moduloDqmh API.vi
+
+|<<moduloDqmh.lvlib:Update Module Execution Status.vi>>
+|Test moduloDqmh API.vi
+|===
+
+.Used requests
+|===
+|Module|Brodcasts
+
+|--
+|--
+|===
+
+.Registred broadcast
+|===
+|Module|Brodcasts
+
+|--
+|--
+|===
+
+=== Libraries
+
+This section describes the libraries contained in the project.
+
+=== Classes
+
+This section describes the classes contained in the project.
+
+==== Serial Device.lvclass
+
+Esta clase es la papa y la principal de todo el HAL. esta vacio porque los hijos son los que hacen las cosas, de cierta manera se reciclan los codigos del papa
+
+
+==== Arduino.lvclass
+
+Esta calse contiene todos los overrides de las instrucciones o funciones del arduino. Aqui se encuentran los hijos que realizan tareas especificas.
+
+
+==== NXP.lvclass
+
+Esta calse contiene todos los overrides de las instrucciones o funciones del NXP. Aqui se encuentran los hijos que realizan tareas especificas.
+
+
+==== simulado.lvclass
+
+Esta calse contiene todos los overrides de las instrucciones o funciones del SIMULADO. Aqui se encuentran los hijos que realizan tareas especificas.
+
+
+== VI descriptions
+
+=== DQMH(R) modules
+
+This section describes DQMH(R) modules events.
+
+==== moduloDqmh.lvlib
+
+===== moduloDqmh.lvlib:Start Module.vi
+
+*Event type:* Not a DQMH Event
+
+:imgpath: moduloDqmh.lvlib_Start Module.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Start Module.vi]
+
+*Description:*
+++++
+Launches the Module Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:Stop Module.vi
+
+*Event type:* Not a DQMH Event
+
+:imgpath: moduloDqmh.lvlib_Stop Module.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Stop Module.vi]
+
+*Description:*
+++++
+Send the Stop request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:Show Panel.vi
+
+*Event type:* Request
+
+:imgpath: moduloDqmh.lvlib_Show Panel.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Show Panel.vi]
+
+*Description:*
+++++
+Send the Show Panel request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:Hide Panel.vi
+
+*Event type:* Request
+
+:imgpath: moduloDqmh.lvlib_Hide Panel.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Hide Panel.vi]
+
+*Description:*
+++++
+Send the Hide Panel request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:Show Diagram.vi
+
+*Event type:* Request
+
+:imgpath: moduloDqmh.lvlib_Show Diagram.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Show Diagram.vi]
+
+*Description:*
+++++
+This VI tells the Module to show its block diagram to facilitate troubleshooting (add probes, breakpoints, highlight execution, etc).
+
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:READ ADC.vi
+
+*Event type:* Request
+
+:imgpath: moduloDqmh.lvlib_READ ADC.vi.png
+image::{imgpath}[moduloDqmh.lvlib:READ ADC.vi]
+
+*Description:*
+++++
+LECTURA ADC
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== moduloDqmh.lvlib:Read Port.vi
+
+*Event type:* Request
+
+:imgpath: moduloDqmh.lvlib_Read Port.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Read Port.vi]
+
+*Description:*
+++++
+Read port
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== moduloDqmh.lvlib:Read Pin.vi
+
+*Event type:* Request
+
+:imgpath: moduloDqmh.lvlib_Read Pin.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Read Pin.vi]
+
+*Description:*
+++++
+
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== moduloDqmh.lvlib:Write Port.vi
+
+*Event type:* Request
+
+:imgpath: moduloDqmh.lvlib_Write Port.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Write Port.vi]
+
+*Description:*
+++++
+
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== moduloDqmh.lvlib:Write Pin.vi
+
+*Event type:* Request
+
+:imgpath: moduloDqmh.lvlib_Write Pin.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Write Pin.vi]
+
+*Description:*
+++++
+
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== moduloDqmh.lvlib:Module Did Init.vi
+
+*Event type:* Broadcast
+
+:imgpath: moduloDqmh.lvlib_Module Did Init.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Module Did Init.vi]
+
+*Description:*
+++++
+Send the Module Did Init event to any VI registered to listen to this module's broadcast events.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:Status Updated.vi
+
+*Event type:* Broadcast
+
+:imgpath: moduloDqmh.lvlib_Status Updated.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Status Updated.vi]
+
+*Description:*
+++++
+Send the Status Updated event to any VI registered to listen to events from the owning module.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:Error Reported.vi
+
+*Event type:* Broadcast
+
+:imgpath: moduloDqmh.lvlib_Error Reported.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Error Reported.vi]
+
+*Description:*
+++++
+Send the Error Reported event to any VI registered to listen to events from the owning module.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:Module Did Stop.vi
+
+*Event type:* Broadcast
+
+:imgpath: moduloDqmh.lvlib_Module Did Stop.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Module Did Stop.vi]
+
+*Description:*
+++++
+Send the Module Did Stop event to any VI registered to listen to this module's broadcast events.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== moduloDqmh.lvlib:Update Module Execution Status.vi
+
+*Event type:* Broadcast
+
+:imgpath: moduloDqmh.lvlib_Update Module Execution Status.vi.png
+image::{imgpath}[moduloDqmh.lvlib:Update Module Execution Status.vi]
+
+*Description:*
+++++
+Fire the Get Module Execution Status request.
+_____
+Created using Delacor QMH Event Scripter 3.0.0.12.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+=== Libraries
+
+This section describes libraries public VIs.
+
+=== Classes
+
+This section describes classes public VIs.
+
+==== Serial Device.lvclass
+
+===== Serial Device.lvclass:Read Serial Device Brand.vi
+
+:imgpath: Serial Device.lvclass_Read Serial Device Brand.vi.png
+image::{imgpath}[Serial Device.lvclass:Read Serial Device Brand.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:Write Serial Device Brand.vi
+
+:imgpath: Serial Device.lvclass_Write Serial Device Brand.vi.png
+image::{imgpath}[Serial Device.lvclass:Write Serial Device Brand.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:Read Visa Com Port.vi
+
+:imgpath: Serial Device.lvclass_Read Visa Com Port.vi.png
+image::{imgpath}[Serial Device.lvclass:Read Visa Com Port.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:Write Visa Com Port.vi
+
+:imgpath: Serial Device.lvclass_Write Visa Com Port.vi.png
+image::{imgpath}[Serial Device.lvclass:Write Visa Com Port.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:Getpinstatusresponse.vi
+
+:imgpath: Serial Device.lvclass_Getpinstatusresponse.vi.png
+image::{imgpath}[Serial Device.lvclass:Getpinstatusresponse.vi]
+
+*Description:*
+++++
+Este Vi se encarag de leer del micro los valores del los pines seleccionados. Eventualmente son mostrados en el interfaz
+++++
+
+===== Serial Device.lvclass:GETPINSTATUS.vi
+
+:imgpath: Serial Device.lvclass_GETPINSTATUS.vi.png
+image::{imgpath}[Serial Device.lvclass:GETPINSTATUS.vi]
+
+*Description:*
+++++
+Get pin status escribe la instruccion en el micro y consecutivamente genera una respuesta 
+++++
+
+===== Serial Device.lvclass:reponsegetport.vi
+
+:imgpath: Serial Device.lvclass_reponsegetport.vi.png
+image::{imgpath}[Serial Device.lvclass:reponsegetport.vi]
+
+*Description:*
+++++
+get port response lee la respuesta del microcontrolador seleccionado.
+++++
+
+===== Serial Device.lvclass:GETPORTSTATUS.vi
+
+:imgpath: Serial Device.lvclass_GETPORTSTATUS.vi.png
+image::{imgpath}[Serial Device.lvclass:GETPORTSTATUS.vi]
+
+*Description:*
+++++
+GETPORTSTATUS se encarga de mandar la instrucion de obtencion del puerto al microcontrolador
+++++
+
+===== Serial Device.lvclass:SETPINSTATUS.vi
+
+:imgpath: Serial Device.lvclass_SETPINSTATUS.vi.png
+image::{imgpath}[Serial Device.lvclass:SETPINSTATUS.vi]
+
+*Description:*
+++++
+SETPINSTATUS esta instruccion hace el set de los pines y manda la instruccion al micro
+++++
+
+===== Serial Device.lvclass:SETPORT.vi
+
+:imgpath: Serial Device.lvclass_SETPORT.vi.png
+image::{imgpath}[Serial Device.lvclass:SETPORT.vi]
+
+*Description:*
+++++
+SETPORT este vi Se encarga de setear el port de los micros mandando la instruccion correpsondiente al microncotrolador
+++++
+
+===== Serial Device.lvclass:respuesta read adc.vi
+
+:imgpath: Serial Device.lvclass_respuesta read adc.vi.png
+image::{imgpath}[Serial Device.lvclass:respuesta read adc.vi]
+
+*Description:*
+++++
+Este VI hace la lectura del adc y lo enseña en el interfaz
+++++
+
+===== Serial Device.lvclass:Read ADC.vi
+
+:imgpath: Serial Device.lvclass_Read ADC.vi.png
+image::{imgpath}[Serial Device.lvclass:Read ADC.vi]
+
+*Description:*
+++++
+Read adc manda la instruccion de la lectura del adc al microcontrolador en cuestion
+++++
+
+===== Serial Device.lvclass:visa closed connection.vi
+
+:imgpath: Serial Device.lvclass_visa closed connection.vi.png
+image::{imgpath}[Serial Device.lvclass:visa closed connection.vi]
+
+*Description:*
+++++
+Ciere de la comunicacion
+++++
+
+===== Serial Device.lvclass:initilize.vi
+
+:imgpath: Serial Device.lvclass_initilize.vi.png
+image::{imgpath}[Serial Device.lvclass:initilize.vi]
+
+*Description:*
+++++
+Metodo inicializar
+Se configura la comunicacion del VISA
+++++
+
+===== Serial Device.lvclass:serial read.vi
+
+:imgpath: Serial Device.lvclass_serial read.vi.png
+image::{imgpath}[Serial Device.lvclass:serial read.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:comand.vi
+
+:imgpath: Serial Device.lvclass_comand.vi.png
+image::{imgpath}[Serial Device.lvclass:comand.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:Untitled 1.vi
+
+:imgpath: Serial Device.lvclass_Untitled 1.vi.png
+image::{imgpath}[Serial Device.lvclass:Untitled 1.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:commndtamplate.vit
+
+:imgpath: Serial Device.lvclass_commndtamplate.vit.png
+image::{imgpath}[Serial Device.lvclass:commndtamplate.vit]
+
+*Description:*
+No description found (add content in VI description)
+
+==== Arduino.lvclass
+
+===== Arduino.lvclass:GETPINSTATUS.vi
+
+:imgpath: Arduino.lvclass_GETPINSTATUS.vi.png
+image::{imgpath}[Arduino.lvclass:GETPINSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:Getpinstatusresponse.vi
+
+:imgpath: Arduino.lvclass_Getpinstatusresponse.vi.png
+image::{imgpath}[Arduino.lvclass:Getpinstatusresponse.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:GETPORTSTATUS.vi
+
+:imgpath: Arduino.lvclass_GETPORTSTATUS.vi.png
+image::{imgpath}[Arduino.lvclass:GETPORTSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:initilize.vi
+
+:imgpath: Arduino.lvclass_initilize.vi.png
+image::{imgpath}[Arduino.lvclass:initilize.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:Read ADC.vi
+
+:imgpath: Arduino.lvclass_Read ADC.vi.png
+image::{imgpath}[Arduino.lvclass:Read ADC.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:reponsegetport.vi
+
+:imgpath: Arduino.lvclass_reponsegetport.vi.png
+image::{imgpath}[Arduino.lvclass:reponsegetport.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:respuesta read adc.vi
+
+:imgpath: Arduino.lvclass_respuesta read adc.vi.png
+image::{imgpath}[Arduino.lvclass:respuesta read adc.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:SETPINSTATUS.vi
+
+:imgpath: Arduino.lvclass_SETPINSTATUS.vi.png
+image::{imgpath}[Arduino.lvclass:SETPINSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:SETPORT.vi
+
+:imgpath: Arduino.lvclass_SETPORT.vi.png
+image::{imgpath}[Arduino.lvclass:SETPORT.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Arduino.lvclass:visa closed connection.vi
+
+:imgpath: Arduino.lvclass_visa closed connection.vi.png
+image::{imgpath}[Arduino.lvclass:visa closed connection.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+==== NXP.lvclass
+
+===== NXP.lvclass:GETPINSTATUS.vi
+
+:imgpath: NXP.lvclass_GETPINSTATUS.vi.png
+image::{imgpath}[NXP.lvclass:GETPINSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:Getpinstatusresponse.vi
+
+:imgpath: NXP.lvclass_Getpinstatusresponse.vi.png
+image::{imgpath}[NXP.lvclass:Getpinstatusresponse.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:GETPORTSTATUS.vi
+
+:imgpath: NXP.lvclass_GETPORTSTATUS.vi.png
+image::{imgpath}[NXP.lvclass:GETPORTSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:initilize.vi
+
+:imgpath: NXP.lvclass_initilize.vi.png
+image::{imgpath}[NXP.lvclass:initilize.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:Read ADC.vi
+
+:imgpath: NXP.lvclass_Read ADC.vi.png
+image::{imgpath}[NXP.lvclass:Read ADC.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:reponsegetport.vi
+
+:imgpath: NXP.lvclass_reponsegetport.vi.png
+image::{imgpath}[NXP.lvclass:reponsegetport.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:respuesta read adc.vi
+
+:imgpath: NXP.lvclass_respuesta read adc.vi.png
+image::{imgpath}[NXP.lvclass:respuesta read adc.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:SETPINSTATUS.vi
+
+:imgpath: NXP.lvclass_SETPINSTATUS.vi.png
+image::{imgpath}[NXP.lvclass:SETPINSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:SETPORT.vi
+
+:imgpath: NXP.lvclass_SETPORT.vi.png
+image::{imgpath}[NXP.lvclass:SETPORT.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== NXP.lvclass:visa closed connection.vi
+
+:imgpath: NXP.lvclass_visa closed connection.vi.png
+image::{imgpath}[NXP.lvclass:visa closed connection.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+==== simulado.lvclass
+
+===== simulado.lvclass:FGV.vi
+
+:imgpath: simulado.lvclass_FGV.vi.png
+image::{imgpath}[simulado.lvclass:FGV.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:GETPINSTATUS.vi
+
+:imgpath: simulado.lvclass_GETPINSTATUS.vi.png
+image::{imgpath}[simulado.lvclass:GETPINSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:Getpinstatusresponse.vi
+
+:imgpath: simulado.lvclass_Getpinstatusresponse.vi.png
+image::{imgpath}[simulado.lvclass:Getpinstatusresponse.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:GETPORTSTATUS.vi
+
+:imgpath: simulado.lvclass_GETPORTSTATUS.vi.png
+image::{imgpath}[simulado.lvclass:GETPORTSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:init.vi
+
+:imgpath: simulado.lvclass_init.vi.png
+image::{imgpath}[simulado.lvclass:init.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:initilize.vi
+
+:imgpath: simulado.lvclass_initilize.vi.png
+image::{imgpath}[simulado.lvclass:initilize.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:Read ADC.vi
+
+:imgpath: simulado.lvclass_Read ADC.vi.png
+image::{imgpath}[simulado.lvclass:Read ADC.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:reponsegetport.vi
+
+:imgpath: simulado.lvclass_reponsegetport.vi.png
+image::{imgpath}[simulado.lvclass:reponsegetport.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:respuesta read adc.vi
+
+:imgpath: simulado.lvclass_respuesta read adc.vi.png
+image::{imgpath}[simulado.lvclass:respuesta read adc.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:SETPINSTATUS.vi
+
+:imgpath: simulado.lvclass_SETPINSTATUS.vi.png
+image::{imgpath}[simulado.lvclass:SETPINSTATUS.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:SETPORT.vi
+
+:imgpath: simulado.lvclass_SETPORT.vi.png
+image::{imgpath}[simulado.lvclass:SETPORT.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== simulado.lvclass:visa closed connection.vi
+
+:imgpath: simulado.lvclass_visa closed connection.vi.png
+image::{imgpath}[simulado.lvclass:visa closed connection.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+== Legal Information
+
+=== Document creation
+
+This document has been generated using the following tools.
+
+==== Antidoc
+
+Project website: https://wovalab.gitlab.io/open-source/labview-doc-generator/[Antidoc] 
+
+Maintainer website: https://wovalab.com[Wovalab] 
+
+BSD 3-Clause License
+
+Copyright (C) 2019, Wovalab,
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+==== Asciidoc for LabVIEW(TM)
+
+Project website: https://wovalab.gitlab.io/open-source/asciidoc-toolkit/[Asciidoc toolkit] 
+
+Maintainer website: https://wovalab.com[Wovalab] 
+
+BSD 3-Clause License
+
+Copyright (C) 2019, Wovalab,
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+==== Graph Builder
+
+Project website: https://gitlab.com/cgambini/graph-builder[Graph Builder]
+
+BSD 3-Clause License
+
+Copyright (c) 2020, Cyril GAMBINI
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+=== Product used in the project
+
+The documented project has been developed with the following products.
+
+==== DQMH(R)
+
+Copyright (C) 2015-2020 by Delacor, LLC. All Rights Reserved.
+
+Find more details on https://delacor.com/products/dqmh/[Delacor] website
+
